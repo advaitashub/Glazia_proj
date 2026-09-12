@@ -6,8 +6,20 @@ export const createCanvas = async (req, res) => {
   try {
     const { name, width, height, elements } = req.body;
 
+    if (!name || !name.trim()) {
+      return res.status(400).json({
+        message: "Canvas name is required",
+      });
+    }
+
+    if (!width || width <= 0 || !height || height <= 0) {
+      return res.status(400).json({
+        message: "Canvas width and height must be greater than 0",
+      });
+    }
+
     const canvas = await Canvas.create({
-      name,
+      name: name.trim(),
       width,
       height,
       elements: elements || [],
@@ -55,8 +67,8 @@ export const getCanvasById = async (req, res) => {
 
     res.status(200).json(canvas);
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch canvas",
+    res.status(400).json({
+      message: "Invalid canvas ID",
       error: error.message,
     });
   }
@@ -69,10 +81,22 @@ export const updateCanvas = async (req, res) => {
   try {
     const { name, width, height, elements } = req.body;
 
+    if (!name || !name.trim()) {
+      return res.status(400).json({
+        message: "Canvas name is required",
+      });
+    }
+
+    if (!width || width <= 0 || !height || height <= 0) {
+      return res.status(400).json({
+        message: "Canvas width and height must be greater than 0",
+      });
+    }
+
     const canvas = await Canvas.findByIdAndUpdate(
       req.params.id,
       {
-        name,
+        name: name.trim(),
         width,
         height,
         elements,
@@ -91,8 +115,8 @@ export const updateCanvas = async (req, res) => {
 
     res.status(200).json(canvas);
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to update canvas",
+    res.status(400).json({
+      message: "Invalid canvas ID",
       error: error.message,
     });
   }
