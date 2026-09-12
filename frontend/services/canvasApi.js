@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:5000/api/canvases";
-
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/canvases";
 export const createCanvas = async (canvasData) => {
   const response = await fetch(API_URL, {
     method: "POST",
