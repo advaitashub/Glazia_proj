@@ -18,6 +18,9 @@ A Canva-like full-stack visual editor built using **Next.js, React Konva, Expres
 - Edit element properties
 - Delete selected elements
 - Delete elements using `Delete` / `Backspace` keys
+- Undo and redo editing actions
+- Undo using `Ctrl + Z`
+- Redo using `Ctrl + Y` or `Ctrl + Shift + Z`
 - Save canvases to MongoDB
 - Open previously saved canvases
 - Update existing canvases
@@ -56,6 +59,7 @@ A Canva-like full-stack visual editor built using **Next.js, React Konva, Expres
 
 ```text
 CanvaAss/
+
 ├── frontend/
 │   ├── app/
 │   │   └── page.js
@@ -66,9 +70,11 @@ CanvaAss/
 │   │   ├── PropertiesPanel/
 │   │   └── Toolbar/
 │   │
+│   ├── hooks/
+│   │   └── useCanvas.js
+│   │
 │   └── services/
-│       ├── canvasApi.js
-│       └── storageService.js
+│       └── canvasApi.js
 │
 ├── backend/
 │   ├── config/
@@ -86,12 +92,39 @@ CanvaAss/
 └── README.md
 ```
 
+## Architecture
+
+The frontend follows a separation of responsibilities:
+
+```text
+page.js
+   ↓
+UI composition
+
+useCanvas.js
+   ↓
+Canvas state + editing logic + undo/redo
+
+canvasApi.js
+   ↓
+REST API communication
+
+Express Backend
+   ↓
+Controllers + Routes + Models
+
+MongoDB Atlas
+```
+
+The `useCanvas` custom hook keeps the main canvas state and editing operations separate from the UI.
+
 ## Setup
 
 ### 1. Clone the Repository
 
 ```bash
 git clone <your-github-repository-url>
+
 cd CanvaAss
 ```
 
@@ -101,6 +134,7 @@ Open a terminal and run:
 
 ```bash
 cd frontend
+
 npm install
 ```
 
@@ -110,6 +144,7 @@ Open another terminal and run:
 
 ```bash
 cd backend
+
 npm install
 ```
 
@@ -128,6 +163,12 @@ The `.env` file should **not** be committed to GitHub.
 
 A `.env.example` file is included in the project to show the required environment variables.
 
+For the deployed frontend, configure:
+
+```env
+NEXT_PUBLIC_API_URL=https://your-render-backend-url.onrender.com/api/canvases
+```
+
 ### 5. Start the Backend
 
 From the `backend` folder:
@@ -144,10 +185,11 @@ http://localhost:5000
 
 ### 6. Start the Frontend
 
-Open another terminal and run:
+Open another terminal:
 
 ```bash
 cd frontend
+
 npm run dev
 ```
 
@@ -172,6 +214,21 @@ Open `http://localhost:3000` in your browser.
 ## How It Works
 
 The editor maintains canvas elements in React state and communicates with the Express backend through REST APIs.
+
+### Canvas State
+
+The main editor state is managed through the `useCanvas` custom hook.
+
+It manages:
+
+- Canvas elements
+- Selected element
+- Canvas name
+- Saved canvases
+- Canvas ID
+- Error messages
+- Undo history
+- Redo history
 
 ### Saving a Canvas
 
@@ -234,6 +291,52 @@ Express Backend
     ↓
 MongoDB Atlas
 ```
+
+## Undo and Redo
+
+The editor maintains a history of canvas element states.
+
+When an editing action is performed, the previous state is stored in the history.
+
+```text
+Previous State
+      ↓
+   History
+      ↓
+ Current State
+```
+
+### Undo
+
+Undo restores the previous canvas state.
+
+```text
+Current State
+      ↓
+   Undo
+      ↓
+Previous State
+```
+
+### Redo
+
+Redo restores a state that was previously undone.
+
+```text
+Previous State
+      ↓
+    Redo
+      ↓
+Next State
+```
+
+Keyboard shortcuts are also supported:
+
+- `Ctrl + Z` → Undo
+- `Ctrl + Y` → Redo
+- `Ctrl + Shift + Z` → Redo
+
+Creating a new editing action after an undo clears the redo history, following the expected behavior of common visual editors.
 
 ## Editor Functionality
 
@@ -317,7 +420,7 @@ Example environment variables are provided in:
 .env.example
 ```
 
-Never commit real MongoDB credentials to the repository.
+Never commit real MongoDB credentials or other secrets to the repository.
 
 ## Deployment
 
@@ -351,14 +454,13 @@ NEXT_PUBLIC_API_URL=https://your-render-backend-url.onrender.com/api/canvases
 
 Images uploaded through the browser currently use temporary browser object URLs.
 
-Because these URLs are temporary, uploaded images may not persist after a complete browser refresh.
+Because these URLs are temporary, uploaded images may not persist after a complete browser refresh or when accessing the canvas from another device.
 
 Permanent image storage can be added in the future using cloud storage or a dedicated file-upload service.
 
 ## Future Improvements
 
 - Permanent image storage
-- Undo/redo functionality
 - Multiple canvas sizes
 - Additional shapes and design elements
 - Layer ordering
