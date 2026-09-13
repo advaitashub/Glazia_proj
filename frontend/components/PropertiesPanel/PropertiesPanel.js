@@ -1,3 +1,4 @@
+
 export default function PropertiesPanel({
   selectedElement,
   updateElement,
@@ -29,6 +30,33 @@ export default function PropertiesPanel({
             <p className="text-sm text-gray-500">
               {selectedElement.id}
             </p>
+          </div>
+
+
+          {/* Fill Colour */}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Fill Colour
+            </label>
+
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={selectedElement.fill || "#000000"}
+                onChange={(event) =>
+                  updateElement(
+                    "fill",
+                    event.target.value
+                  )
+                }
+                className="w-12 h-10 border rounded-md cursor-pointer"
+              />
+
+              <span className="text-sm text-gray-600">
+                {selectedElement.fill || "#000000"}
+              </span>
+            </div>
           </div>
 
 
@@ -239,3 +267,4 @@ export default function PropertiesPanel({
     </aside>
   );
 }
+

@@ -293,7 +293,9 @@ export default function CanvasEditor({
                       element.rotation || 0
                     }
 
-                    fill="lightblue"
+                    fill={
+                      element.fill || "lightblue"
+                    }
 
                     draggable
 
@@ -347,7 +349,9 @@ export default function CanvasEditor({
                       element.rotation || 0
                     }
 
-                    fill="lightgreen"
+                    fill={
+                      element.fill || "lightgreen"
+                    }
 
                     draggable
 
@@ -403,7 +407,9 @@ export default function CanvasEditor({
                       element.rotation || 0
                     }
 
-                    fill="black"
+                    fill={
+                      element.fill || "black"
+                    }
 
                     draggable
 
@@ -536,3 +542,4 @@ export default function CanvasEditor({
     </main>
   );
 }
+

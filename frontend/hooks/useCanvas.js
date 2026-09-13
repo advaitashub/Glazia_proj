@@ -19,6 +19,7 @@ const INITIAL_ELEMENTS = [
     width: 200,
     height: 100,
     rotation: 0,
+    fill: "#ADD8E6",
   },
   {
     id: 2,
@@ -28,6 +29,7 @@ const INITIAL_ELEMENTS = [
     text: "Hello Editor",
     fontSize: 24,
     rotation: 0,
+    fill: "#000000",
   },
 ];
 
@@ -101,6 +103,7 @@ export default function useCanvas() {
       text: "New Text",
       fontSize: 24,
       rotation: 0,
+      fill: "#000000",
     };
 
     updateElements([
@@ -125,6 +128,7 @@ export default function useCanvas() {
             y: 200,
             radius: 60,
             rotation: 0,
+            fill: "#90EE90",
           }
         : {
             id: Date.now(),
@@ -134,6 +138,7 @@ export default function useCanvas() {
             width: 200,
             height: 100,
             rotation: 0,
+            fill: "#ADD8E6",
           };
 
     updateElements([
@@ -587,3 +592,4 @@ export default function useCanvas() {
     canRedo: future.length > 0,
   };
 }
+
