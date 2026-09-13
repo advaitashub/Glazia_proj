@@ -10,27 +10,53 @@ import useCanvas from "../hooks/useCanvas";
 export default function Home() {
   const {
     elements,
+
     setSelectedId,
+
     selectedElement,
+
     canvases,
+
     canvasName,
+
     setCanvasName,
+
     errorMessage,
+
     addText,
+
     addShape,
+
     addImage,
+
     handleDragEnd,
+
     updateElement,
+
     deleteSelectedElement,
+
     handleSave,
+
     handleOpenCanvas,
+
     handleDeleteCanvas,
+
+    undo,
+
+    redo,
+
+    canUndo,
+
+    canRedo,
   } = useCanvas();
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
 
-      {/* Header */}
+      {/* =====================================
+          Header
+      ===================================== */}
+
       <header className="h-14 shrink-0 bg-white border-b flex items-center justify-between px-4">
 
         <h1 className="text-xl text-black font-bold">
@@ -39,15 +65,43 @@ export default function Home() {
 
         <div className="flex items-center gap-2">
 
+          {/* Undo */}
+
+          <button
+            onClick={undo}
+            disabled={!canUndo}
+            className="border px-3 py-2 rounded-md text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
+            title="Undo"
+          >
+            ↶ Undo
+          </button>
+
+          {/* Redo */}
+
+          <button
+            onClick={redo}
+            disabled={!canRedo}
+            className="border px-3 py-2 rounded-md text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
+            title="Redo"
+          >
+            ↷ Redo
+          </button>
+
+          {/* Canvas Name */}
+
           <input
             type="text"
             placeholder="Canvas name"
             value={canvasName}
             onChange={(event) =>
-              setCanvasName(event.target.value)
+              setCanvasName(
+                event.target.value
+              )
             }
             className="border rounded-md px-3 py-2 text-black w-40"
           />
+
+          {/* Save */}
 
           <button
             onClick={handleSave}
@@ -59,17 +113,24 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Error Message */}
+      {/* =====================================
+          Error Message
+      ===================================== */}
+
       {errorMessage && (
         <div className="bg-red-100 text-red-700 px-4 py-3 text-sm border-b">
           {errorMessage}
         </div>
       )}
 
-      {/* Editor */}
+      {/* =====================================
+          Editor
+      ===================================== */}
+
       <div className="flex flex-1 flex-col lg:flex-row overflow-auto">
 
         {/* Toolbar */}
+
         <Toolbar
           onAddText={addText}
           onAddImage={addImage}
@@ -77,6 +138,7 @@ export default function Home() {
         />
 
         {/* Canvas */}
+
         <CanvasEditor
           elements={elements}
           setSelectedId={setSelectedId}
@@ -85,15 +147,21 @@ export default function Home() {
         />
 
         {/* Properties Panel */}
+
         <PropertiesPanel
           selectedElement={selectedElement}
           updateElement={updateElement}
-          deleteSelectedElement={deleteSelectedElement}
+          deleteSelectedElement={
+            deleteSelectedElement
+          }
         />
 
       </div>
 
-      {/* Saved Canvases */}
+      {/* =====================================
+          Saved Canvases
+      ===================================== */}
+
       <CanvasList
         canvases={canvases}
         onOpen={handleOpenCanvas}
