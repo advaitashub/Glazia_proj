@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Toolbar({
   onAddText,
   onAddImage,
   onAddShape,
 }) {
-  const [showShapes, setShowShapes] = useState(false);
+  const fileInputRef = useRef(null);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
+  const [shapeType, setShapeType] = useState("rect");
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files?.[0];
 
     if (!file) {
       return;
@@ -19,87 +21,157 @@ export default function Toolbar({
     const imageUrl = URL.createObjectURL(file);
 
     onAddImage(imageUrl);
+
+    event.target.value = "";
   };
 
-  const handleRectangle = () => {
-    onAddShape("rect");
-    setShowShapes(false);
-  };
-
-  const handleCircle = () => {
-    onAddShape("circle");
-    setShowShapes(false);
+  const handleAddShape = () => {
+    onAddShape(shapeType);
   };
 
   return (
-    <aside className="w-full lg:w-56 shrink-0 bg-white border-b lg:border-b-0 lg:border-r p-4">
+    <aside className="w-full lg:w-52 shrink-0 bg-white border border-gray-200 rounded-xl shadow-sm p-3">
 
-      <h2 className="font-semibold text-blue-700 mb-4">
-        Elements
-      </h2>
+      {/* ================= TITLE ================= */}
 
-      <div className="flex flex-row lg:flex-col gap-2">
+      <div className="mb-4 px-1">
+        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+          Elements
+        </p>
 
-        {/* Text */}
+        <h2 className="text-base font-bold text-gray-800 mt-1">
+          Add to canvas
+        </h2>
+      </div>
+
+
+      {/* ================= TOOLS ================= */}
+
+      <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
+
+        {/* TEXT */}
 
         <button
           onClick={onAddText}
-          className="flex-1 lg:w-full text-black border rounded-md p-2 text-left hover:bg-gray-100"
+          className="group flex items-center gap-3 p-3 rounded-lg border border-purple-100 bg-purple-50 text-left hover:bg-purple-100 hover:border-purple-200 transition"
         >
-          + Text
+          <span className="w-9 h-9 shrink-0 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg group-hover:bg-purple-200">
+            T
+          </span>
+
+          <span>
+            <span className="block text-sm font-semibold text-gray-800">
+              Text
+            </span>
+
+            <span className="block text-xs text-gray-500">
+              Add a heading
+            </span>
+          </span>
         </button>
 
 
-        {/* Image */}
+        {/* SHAPE */}
 
-        <label className="flex-1 lg:w-full text-black border rounded-md p-2 text-left hover:bg-gray-100 cursor-pointer">
-          + Image
+        <div className="border border-blue-100 bg-blue-50 rounded-lg p-2">
 
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-          />
-        </label>
+          <div className="flex items-center gap-2 mb-2 px-1">
 
+            <span className="w-9 h-9 shrink-0 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
+              ◇
+            </span>
 
-        {/* Shape */}
+            <div>
+              <p className="text-sm font-semibold text-gray-800">
+                Shape
+              </p>
 
-        <div className="relative flex-1 lg:w-full">
-
-          <button
-            onClick={() => setShowShapes(!showShapes)}
-            className="w-full text-black border rounded-md p-2 text-left hover:bg-gray-100"
-          >
-            + Shape ▾
-          </button>
-
-
-          {showShapes && (
-            <div className="absolute left-0 top-full mt-1 w-full bg-white border rounded-md shadow-md z-10">
-
-              <button
-                onClick={handleRectangle}
-                className="w-full text-black p-2 text-left hover:bg-gray-100"
-              >
-                Rectangle
-              </button>
-
-              <button
-                onClick={handleCircle}
-                className="w-full text-black p-2 text-left hover:bg-gray-100"
-              >
-                Circle
-              </button>
-
+              <p className="text-xs text-gray-500">
+                Choose a shape
+              </p>
             </div>
-          )}
+
+          </div>
+
+
+          <div className="flex gap-2">
+
+            <select
+              value={shapeType}
+              onChange={(event) =>
+                setShapeType(event.target.value)
+              }
+              className="flex-1 min-w-0 border border-blue-200 bg-white rounded-md px-2 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            >
+              <option value="rect">
+                Rectangle
+              </option>
+
+              <option value="circle">
+                Circle
+              </option>
+            </select>
+
+
+            <button
+              onClick={handleAddShape}
+              className="bg-blue-600 text-white px-3 rounded-md hover:bg-blue-700 transition font-semibold"
+              title="Add shape"
+            >
+              +
+            </button>
+
+          </div>
 
         </div>
+
+
+        {/* IMAGE */}
+
+        <button
+          onClick={() =>
+            fileInputRef.current?.click()
+          }
+          className="group flex items-center gap-3 p-3 rounded-lg border border-pink-100 bg-pink-50 text-left hover:bg-pink-100 hover:border-pink-200 transition"
+        >
+          <span className="w-9 h-9 shrink-0 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center text-lg">
+            ▧
+          </span>
+
+          <span>
+            <span className="block text-sm font-semibold text-gray-800">
+              Image
+            </span>
+
+            <span className="block text-xs text-gray-500">
+              Upload from device
+            </span>
+          </span>
+        </button>
+
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="hidden"
+        />
+
+      </div>
+
+
+      {/* ================= TIP ================= */}
+
+      <div className="hidden lg:block mt-5 pt-4 border-t border-gray-100">
+
+        <p className="text-xs text-gray-400 leading-relaxed">
+          Tip: Select an element on the canvas to edit its properties.
+        </p>
 
       </div>
 
     </aside>
   );
 }
+
