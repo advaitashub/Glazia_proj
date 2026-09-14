@@ -4,7 +4,6 @@ import Toolbar from "../components/Toolbar/Toolbar";
 import CanvasEditor from "../components/CanvasEditor/CanvasEditor";
 import PropertiesPanel from "../components/PropertiesPanel/PropertiesPanel";
 import CanvasList from "../components/CanvasList/CanvasList";
-
 import useCanvas from "../hooks/useCanvas";
 
 export default function Home() {
