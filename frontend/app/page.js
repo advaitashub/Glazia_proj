@@ -51,67 +51,81 @@ export default function Home() {
   } = useCanvas();
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-100 overflow-x-hidden">
 
       {/* =====================================
           Header
       ===================================== */}
 
-      <header className="h-14 shrink-0 bg-white border-b flex items-center justify-between px-4">
+      <header className="bg-white border-b px-3 sm:px-4 py-3">
 
-        <h1 className="text-xl text-black font-bold">
-          My Visual Editor
-        </h1>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-        <div className="flex items-center gap-2">
+          {/* Title */}
 
-          {/* Undo */}
+          <h1 className="text-lg sm:text-xl text-black font-bold">
+            My Visual Editor
+          </h1>
 
-          <button
-            onClick={undo}
-            disabled={!canUndo}
-            className="border px-3 py-2 rounded-md text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
-            title="Undo"
-          >
-            ↶ Undo
-          </button>
 
-          {/* Redo */}
+          {/* Header Controls */}
 
-          <button
-            onClick={redo}
-            disabled={!canRedo}
-            className="border px-3 py-2 rounded-md text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
-            title="Redo"
-          >
-            ↷ Redo
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
 
-          {/* Canvas Name */}
+            {/* Undo */}
 
-          <input
-            type="text"
-            placeholder="Canvas name"
-            value={canvasName}
-            onChange={(event) =>
-              setCanvasName(
-                event.target.value
-              )
-            }
-            className="border rounded-md px-3 py-2 text-black w-40"
-          />
+            <button
+              onClick={undo}
+              disabled={!canUndo}
+              className="border px-2 sm:px-3 py-2 rounded-md text-sm sm:text-base text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
+              title="Undo"
+            >
+              ↶ Undo
+            </button>
 
-          {/* Save */}
 
-          <button
-            onClick={handleSave}
-            className="bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700"
-          >
-            Save
-          </button>
+            {/* Redo */}
+
+            <button
+              onClick={redo}
+              disabled={!canRedo}
+              className="border px-2 sm:px-3 py-2 rounded-md text-sm sm:text-base text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
+              title="Redo"
+            >
+              ↷ Redo
+            </button>
+
+
+            {/* Canvas Name */}
+
+            <input
+              type="text"
+              placeholder="Canvas name"
+              value={canvasName}
+              onChange={(event) =>
+                setCanvasName(
+                  event.target.value
+                )
+              }
+              className="border rounded-md px-3 py-2 text-black text-sm w-full sm:w-40"
+            />
+
+
+            {/* Save */}
+
+            <button
+              onClick={handleSave}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm sm:text-base hover:bg-blue-700"
+            >
+              Save
+            </button>
+
+          </div>
 
         </div>
+
       </header>
+
 
       {/* =====================================
           Error Message
@@ -123,11 +137,12 @@ export default function Home() {
         </div>
       )}
 
+
       {/* =====================================
           Editor
       ===================================== */}
 
-      <div className="flex flex-1 flex-col lg:flex-row overflow-auto">
+      <div className="flex flex-1 min-w-0 flex-col lg:flex-row">
 
         {/* Toolbar */}
 
@@ -137,6 +152,7 @@ export default function Home() {
           onAddShape={addShape}
         />
 
+
         {/* Canvas */}
 
         <CanvasEditor
@@ -145,6 +161,7 @@ export default function Home() {
           handleDragEnd={handleDragEnd}
           updateElement={updateElement}
         />
+
 
         {/* Properties Panel */}
 
@@ -157,6 +174,7 @@ export default function Home() {
         />
 
       </div>
+
 
       {/* =====================================
           Saved Canvases
@@ -171,3 +189,4 @@ export default function Home() {
     </div>
   );
 }
+

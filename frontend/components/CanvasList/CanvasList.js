@@ -6,7 +6,7 @@ export default function CanvasList({
   onDelete,
 }) {
   return (
-    <aside className="w-full bg-white border-t p-4">
+    <aside className="w-full bg-white border-t p-3 sm:p-4">
 
       <h2 className="font-semibold text-blue-700 mb-4">
         Saved Canvases
@@ -23,11 +23,11 @@ export default function CanvasList({
         {canvases.map((canvas) => (
           <div
             key={canvas._id}
-            className="flex items-center justify-between border rounded-md p-3"
+            className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border rounded-md p-3"
           >
 
-            <div>
-              <p className="font-medium text-black">
+            <div className="min-w-0">
+              <p className="font-medium text-black break-words">
                 {canvas.name}
               </p>
 
@@ -36,18 +36,18 @@ export default function CanvasList({
               </p>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 shrink-0">
 
               <button
                 onClick={() => onOpen(canvas._id)}
-                className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"
+                className="flex-1 sm:flex-none bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 text-sm"
               >
                 Open
               </button>
 
               <button
                 onClick={() => onDelete(canvas._id)}
-                className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
+                className="flex-1 sm:flex-none bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600 text-sm"
               >
                 Delete
               </button>
