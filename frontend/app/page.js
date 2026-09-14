@@ -10,58 +10,37 @@ import useCanvas from "../hooks/useCanvas";
 export default function Home() {
   const {
     elements,
-
     setSelectedId,
-
     selectedElement,
-
     canvases,
-
     canvasName,
-
     setCanvasName,
-
     errorMessage,
-
     addText,
-
     addShape,
-
     addImage,
-
     handleDragEnd,
-
     updateElement,
-
     deleteSelectedElement,
-
     handleSave,
-
     handleOpenCanvas,
-
     handleDeleteCanvas,
-
     undo,
-
     redo,
-
     canUndo,
-
     canRedo,
   } = useCanvas();
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 overflow-x-hidden">
 
-      {/* =====================================
-          Header
-      ===================================== */}
+      {/* ================= HEADER ================= */}
 
       <header className="bg-white border-b px-3 sm:px-4 py-3">
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-          {/* Title */}
+          {/* Project Title */}
 
           <h1 className="text-lg sm:text-xl text-black font-bold">
             My Visual Editor
@@ -72,28 +51,42 @@ export default function Home() {
 
           <div className="flex flex-wrap items-center gap-2">
 
-            {/* Undo */}
+            {/* Undo / Redo */}
 
-            <button
-              onClick={undo}
-              disabled={!canUndo}
-              className="border px-2 sm:px-3 py-2 rounded-md text-sm sm:text-base text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
-              title="Undo"
-            >
-              ↶ Undo
-            </button>
+            <div className="flex items-center gap-1">
+
+              <button
+                onClick={undo}
+                disabled={!canUndo}
+                className="border border-gray-300 bg-white text-gray-700 px-2 sm:px-3 py-2 rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
+                title="Undo"
+              >
+                <span className="sm:hidden">
+                  ↶
+                </span>
+
+                <span className="hidden sm:inline">
+                  ↶ Undo
+                </span>
+              </button>
 
 
-            {/* Redo */}
+              <button
+                onClick={redo}
+                disabled={!canRedo}
+                className="border border-gray-300 bg-white text-gray-700 px-2 sm:px-3 py-2 rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
+                title="Redo"
+              >
+                <span className="sm:hidden">
+                  ↷
+                </span>
 
-            <button
-              onClick={redo}
-              disabled={!canRedo}
-              className="border px-2 sm:px-3 py-2 rounded-md text-sm sm:text-base text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
-              title="Redo"
-            >
-              ↷ Redo
-            </button>
+                <span className="hidden sm:inline">
+                  ↷ Redo
+                </span>
+              </button>
+
+            </div>
 
 
             {/* Canvas Name */}
@@ -103,11 +96,9 @@ export default function Home() {
               placeholder="Canvas name"
               value={canvasName}
               onChange={(event) =>
-                setCanvasName(
-                  event.target.value
-                )
+                setCanvasName(event.target.value)
               }
-              className="border rounded-md px-3 py-2 text-black text-sm w-full sm:w-40"
+              className="border border-gray-300 rounded-md px-3 py-2 text-black w-full sm:w-40"
             />
 
 
@@ -115,7 +106,7 @@ export default function Home() {
 
             <button
               onClick={handleSave}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm sm:text-base hover:bg-blue-700"
+              className="bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700"
             >
               Save
             </button>
@@ -127,9 +118,7 @@ export default function Home() {
       </header>
 
 
-      {/* =====================================
-          Error Message
-      ===================================== */}
+      {/* ================= ERROR MESSAGE ================= */}
 
       {errorMessage && (
         <div className="bg-red-100 text-red-700 px-4 py-3 text-sm border-b">
@@ -138,9 +127,7 @@ export default function Home() {
       )}
 
 
-      {/* =====================================
-          Editor
-      ===================================== */}
+      {/* ================= EDITOR AREA ================= */}
 
       <div className="flex flex-1 min-w-0 flex-col lg:flex-row">
 
@@ -163,7 +150,7 @@ export default function Home() {
         />
 
 
-        {/* Properties Panel */}
+        {/* Properties */}
 
         <PropertiesPanel
           selectedElement={selectedElement}
@@ -176,9 +163,7 @@ export default function Home() {
       </div>
 
 
-      {/* =====================================
-          Saved Canvases
-      ===================================== */}
+      {/* ================= SAVED CANVASES ================= */}
 
       <CanvasList
         canvases={canvases}
