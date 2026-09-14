@@ -38,28 +38,28 @@ export default function Home() {
 
       <header className="bg-white border-b px-3 sm:px-4 py-3">
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-          {/* Project Title */}
+          {/* ================= TITLE ================= */}
 
           <h1 className="text-lg sm:text-xl text-black font-bold">
             My Visual Editor
           </h1>
 
 
-          {/* Header Controls */}
+          {/* ================= HEADER CONTROLS ================= */}
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2 w-full lg:w-auto">
 
-            {/* Undo / Redo */}
+            {/* ================= UNDO / REDO ================= */}
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 shrink-0">
 
               <button
                 onClick={undo}
                 disabled={!canUndo}
-                className="border border-gray-300 bg-white text-gray-700 px-2 sm:px-3 py-2 rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
                 title="Undo"
+                className="border border-gray-300 bg-white text-gray-700 px-2 sm:px-3 py-2 rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
               >
                 <span className="sm:hidden">
                   ↶
@@ -74,8 +74,8 @@ export default function Home() {
               <button
                 onClick={redo}
                 disabled={!canRedo}
-                className="border border-gray-300 bg-white text-gray-700 px-2 sm:px-3 py-2 rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
                 title="Redo"
+                className="border border-gray-300 bg-white text-gray-700 px-2 sm:px-3 py-2 rounded-md disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100"
               >
                 <span className="sm:hidden">
                   ↷
@@ -89,27 +89,29 @@ export default function Home() {
             </div>
 
 
-            {/* Canvas Name */}
+            {/* ================= CANVAS NAME + SAVE ================= */}
 
-            <input
-              type="text"
-              placeholder="Canvas name"
-              value={canvasName}
-              onChange={(event) =>
-                setCanvasName(event.target.value)
-              }
-              className="border border-gray-300 rounded-md px-3 py-2 text-black w-full sm:w-40"
-            />
+            <div className="flex items-center gap-2 flex-1 lg:flex-none">
+
+              <input
+                type="text"
+                placeholder="Canvas name"
+                value={canvasName}
+                onChange={(event) =>
+                  setCanvasName(event.target.value)
+                }
+                className="border border-gray-300 rounded-md px-3 py-2 text-black w-full sm:w-48 lg:w-52 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              />
 
 
-            {/* Save */}
+              <button
+                onClick={handleSave}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shrink-0 font-medium"
+              >
+                Save
+              </button>
 
-            <button
-              onClick={handleSave}
-              className="bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700"
-            >
-              Save
-            </button>
+            </div>
 
           </div>
 
@@ -131,7 +133,7 @@ export default function Home() {
 
       <div className="flex flex-1 min-w-0 flex-col lg:flex-row">
 
-        {/* Toolbar */}
+        {/* ================= TOOLBAR ================= */}
 
         <Toolbar
           onAddText={addText}
@@ -140,7 +142,7 @@ export default function Home() {
         />
 
 
-        {/* Canvas */}
+        {/* ================= CANVAS ================= */}
 
         <CanvasEditor
           elements={elements}
@@ -150,7 +152,7 @@ export default function Home() {
         />
 
 
-        {/* Properties */}
+        {/* ================= PROPERTIES PANEL ================= */}
 
         <PropertiesPanel
           selectedElement={selectedElement}
@@ -174,4 +176,3 @@ export default function Home() {
     </div>
   );
 }
-
