@@ -38,7 +38,7 @@ export default function Home() {
 
       <header className="bg-white border-b px-3 sm:px-4 py-3">
 
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
 
           {/* ================= TITLE ================= */}
 
@@ -49,7 +49,7 @@ export default function Home() {
 
           {/* ================= HEADER CONTROLS ================= */}
 
-          <div className="flex items-center gap-2 w-full lg:w-auto">
+          <div className="flex items-center gap-2 w-full lg:w-auto lg:ml-auto">
 
             {/* ================= UNDO / REDO ================= */}
 
@@ -176,3 +176,4 @@ export default function Home() {
     </div>
   );
 }
+
